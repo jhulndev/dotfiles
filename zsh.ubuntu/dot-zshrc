@@ -1,0 +1,59 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+autoload -Uz +X compinit && compinit
+
+# Pre-load local only profile
+[ -f ~/.local.pre.zshrc ] && source ~/.local.pre.zshrc
+
+# history setup
+HISTFILE=$HOME/.zhistory
+SAVEHIST=1000
+HISTSIZE=999
+setopt share_history
+setopt hist_expire_dups_first
+setopt hist_ignore_dups
+setopt hist_verify
+
+# completion using arrow keys (based on history)
+bindkey '^K' history-search-backward
+bindkey '^J' history-search-forward
+
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# Neovim
+export VISUAL=nvim
+
+# opencode
+export PATH=$HOME/.opencode/bin:$PATH
+
+# mise
+eval "$("$HOME/.local/bin/mise" activate zsh)"
+
+# Zoxide (better cd) 
+eval "$(zoxide init zsh)"
+
+# fzf key bindings and completion from the Ubuntu apt package
+[[ ! -r /usr/share/doc/fzf/examples/key-bindings.zsh ]] || source /usr/share/doc/fzf/examples/key-bindings.zsh
+[[ ! -r /usr/share/doc/fzf/examples/completion.zsh ]] || source /usr/share/doc/fzf/examples/completion.zsh
+
+# uv
+. "$HOME/.cargo/env"
+eval "$(uv generate-shell-completion zsh)"
+
+# Load aliases
+[ -f ~/.aliases.zsh ] && source ~/.aliases.zsh
+
+# Post-load local only profile
+[ -f ~/.local.post.zshrc ] && source ~/.local.post.zshrc
+
