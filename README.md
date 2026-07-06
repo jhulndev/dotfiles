@@ -30,6 +30,7 @@ This repo uses [GNU Stow](https://www.gnu.org/software/stow/) and `--dotfiles` n
 
 ```bash
 cd ~/dotfiles
+stow --dotfiles --no-folding -t "$HOME" agents
 stow --dotfiles -t "$HOME" zsh zsh.macos git tmux ghostty aerospace bat wezterm nvim.lazyvim.v1
 ```
 
@@ -41,6 +42,9 @@ Key resulting paths:
 - `~/.config/ghostty/config` from `ghostty/`
 - `~/.config/aerospace/aerospace.toml` from `aerospace/`
 - `~/.config/treehouse/config.toml` from `treehouse.ubuntu/` on Ubuntu
+- `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, and `~/.config/opencode/AGENTS.md` from `agents/`
+
+Global agent instructions are edited in `agents/shared/AGENTS.md`; the tool-specific files are symlink aliases to that single source.
 
 ## Post setup
 

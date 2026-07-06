@@ -11,6 +11,10 @@ log "Initialize/update git submodules"
 git submodule update --init --recursive
 
 log "Stow dotfiles"
+if [[ -d agents ]]; then
+  stow --dotfiles --no-folding -t "$HOME" agents
+fi
+
 for package in zsh zsh.macos git tmux ghostty aerospace bat nvim.lazyvim.v1; do
   if [[ -d "$package" ]]; then
     stow --dotfiles -t "$HOME" "$package"
