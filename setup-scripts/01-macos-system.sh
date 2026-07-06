@@ -57,6 +57,13 @@ brew install \
 
 brew install --cask nikitabobko/tap/aerospace
 
+log "Install treehouse (upstream)"
+mkdir -p "$HOME/.local/bin"
+export PATH="$HOME/.local/bin:$PATH"
+if ! require_cmd treehouse; then
+  curl -fsSL https://kunchenguid.github.io/treehouse/install.sh | sh
+fi
+
 log "System bootstrap verification summary"
 printf "brew: %s\n" "$(brew --version | head -n 1)"
 printf "stow: %s\n" "$(stow --version | head -n 1)"
@@ -66,3 +73,4 @@ printf "nvim: %s\n" "$(nvim --version | head -n 1)"
 printf "op: %s\n" "$(op --version 2>/dev/null || echo 'missing')"
 printf "docker: %s\n" "$(docker --version 2>/dev/null || echo 'missing')"
 printf "colima: %s\n" "$(colima version 2>/dev/null | head -n 1 || echo 'missing')"
+printf "treehouse: %s\n" "$(treehouse --version 2>/dev/null || echo 'missing')"

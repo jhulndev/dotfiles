@@ -1,0 +1,6 @@
+# Maximum number of worktrees in the pool.
+max_trees = 16
+
+# Keep Linux worktree pools under ~/projects, which is backed by /srv/dev/projects
+# and included in backups.
+root = "$HOME/projects/.treehouse"

@@ -46,6 +46,11 @@ if ! require_cmd zoxide; then
   curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
 fi
 
+log "Install treehouse (upstream)"
+if ! require_cmd treehouse; then
+  curl -fsSL https://kunchenguid.github.io/treehouse/install.sh | sh
+fi
+
 log "Install Neovim AppImage (official artifact) into /opt/nvim and symlink globally"
 sudo mkdir -p /opt/nvim
 if [[ ! -x /opt/nvim/nvim ]]; then
@@ -154,5 +159,6 @@ printf "nvim: %s\n" "$(nvim --version 2>/dev/null | head -n 1 || echo 'missing')
 printf "op: %s\n" "$(op --version 2>/dev/null || echo 'missing')"
 printf "docker: %s\n" "$(docker --version 2>/dev/null || echo 'missing')"
 printf "docker compose: %s\n" "$(docker compose version 2>/dev/null || echo 'missing')"
+printf "treehouse: %s\n" "$(treehouse --version 2>/dev/null || echo 'missing')"
 
 log "NOTE: To use docker without sudo, log out of SSH and log back in (or run: newgrp docker)."

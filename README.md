@@ -18,7 +18,7 @@ Ubuntu/devbox:
 
 ## Tool ownership
 
-- **Homebrew / apt**: system and shell tools (`stow`, `git`, `tmux`, `nvim`, `fzf`, `fd`, `bat`, `eza`, `ripgrep`, etc.)
+- **Homebrew / apt / upstream installers**: system and shell tools (`stow`, `git`, `tmux`, `nvim`, `fzf`, `fd`, `bat`, `eza`, `ripgrep`, `treehouse`, etc.)
 - **mise**: runtimes and infra CLIs (`uv`, `python`, `node`, `pnpm`, `go`, `rust`, `terraform`, `opentofu`, `kubectl`, `helm`)
 - **uv**: python-based CLI tools (`thefuck` pinned to Python 3.11, `pre-commit`)
 
@@ -40,6 +40,7 @@ Key resulting paths:
 - `~/.config/nvim` from `nvim.lazyvim.v1/`
 - `~/.config/ghostty/config` from `ghostty/`
 - `~/.config/aerospace/aerospace.toml` from `aerospace/`
+- `~/.config/treehouse/config.toml` from `treehouse.ubuntu/` on Ubuntu
 
 ## Post setup
 
