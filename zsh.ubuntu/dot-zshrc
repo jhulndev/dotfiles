@@ -40,6 +40,9 @@ export PATH=$HOME/.opencode/bin:$PATH
 # mise
 eval "$("$HOME/.local/bin/mise" activate zsh)"
 
+# omp
+eval "$(omp completions zsh)"
+
 # Zoxide (better cd) 
 eval "$(zoxide init zsh)"
 
@@ -56,4 +59,3 @@ eval "$(uv generate-shell-completion zsh)"
 
 # Post-load local only profile
 [ -f ~/.local.post.zshrc ] && source ~/.local.post.zshrc
-

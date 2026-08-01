@@ -30,6 +30,7 @@ mise use -g terraform@latest
 mise use -g opentofu@latest
 mise use -g kubectl@latest
 mise use -g helm@latest
+mise use -g github:can1357/oh-my-pi
 
 log "Verify key tool versions"
 uv --version
@@ -44,3 +45,4 @@ terraform version
 tofu version
 kubectl version --client --output=yaml | head -n 12
 helm version
+omp --version

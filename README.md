@@ -19,10 +19,10 @@ Ubuntu/devbox:
 ## Tool ownership
 
 - **Homebrew / apt / upstream installers**: system and shell tools (`stow`, `git`, `tmux`, `nvim`, `fzf`, `fd`, `bat`, `eza`, `ripgrep`, `treehouse`, etc.)
-- **mise**: runtimes and infra CLIs (`uv`, `python`, `node`, `pnpm`, `go`, `rust`, `terraform`, `opentofu`, `kubectl`, `helm`)
+- **mise**: runtimes and development CLIs (`uv`, `python`, `node`, `pnpm`, `go`, `rust`, `terraform`, `opentofu`, `kubectl`, `helm`, `omp`)
 - **uv**: python-based CLI tools (`thefuck` pinned to Python 3.11, `pre-commit`)
 
-All mise-managed tools are currently installed with `@latest` for simplicity.
+All mise-managed tools currently track their latest available releases for simplicity.
 
 ## Stow packages
 
@@ -42,14 +42,17 @@ Key resulting paths:
 - `~/.config/ghostty/config` from `ghostty/`
 - `~/.config/aerospace/aerospace.toml` from `aerospace/`
 - `~/.config/treehouse/config.toml` from `treehouse.ubuntu/` on Ubuntu
-- `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, and `~/.config/opencode/AGENTS.md` from `agents/`
+- `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.omp/agent/AGENTS.md`, and `~/.config/opencode/AGENTS.md` from `agents/`
 
 Global agent instructions are edited in `agents/shared/AGENTS.md`; the tool-specific files are symlink aliases to that single source.
+
+OMP configuration, authentication, sessions, and generated state remain machine-local under `~/.omp/`.
 
 ## Post setup
 
 1. Restart terminal or run `source ~/.zshrc`
-2. Run `p10k configure` if you want to regenerate prompt settings
-3. Install TPM: `git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm`
-4. Open tmux and press `<prefix>I` to install plugins
-5. Open `nvim` and let plugins/language servers install
+2. Run `omp setup`, then allow workspace writes with `omp config set tools.approvalMode write`
+3. Run `p10k configure` if you want to regenerate prompt settings
+4. Install TPM: `git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm`
+5. Open tmux and press `<prefix>I` to install plugins
+6. Open `nvim` and let plugins/language servers install
