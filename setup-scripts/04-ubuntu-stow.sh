@@ -21,4 +21,9 @@ for package in zsh zsh.ubuntu git tmux ghostty bat nvim.lazyvim.v1 treehouse.ubu
   fi
 done
 
+# Herdr stores runtime state beside config.toml, so never fold this directory.
+if [[ -d herdr ]]; then
+  stow --dotfiles --no-folding -t "$HOME" herdr
+fi
+
 log "Stow/bootstrap complete"

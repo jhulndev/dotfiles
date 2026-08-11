@@ -24,4 +24,7 @@ bash "$ROOT_DIR/setup-scripts/03-common-uv.sh"
 log "Running stow/bootstrap link step"
 bash "$ROOT_DIR/setup-scripts/04-macos-stow.sh"
 
+log "Running Herdr setup"
+bash "$ROOT_DIR/setup-scripts/05-common-herdr.sh"
+
 log "Bootstrap complete"

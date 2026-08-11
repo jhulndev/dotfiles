@@ -21,6 +21,11 @@ for package in zsh zsh.macos git tmux ghostty aerospace bat nvim.lazyvim.v1; do
   fi
 done
 
+# Herdr stores runtime state beside config.toml, so never fold this directory.
+if [[ -d herdr ]]; then
+  stow --dotfiles --no-folding -t "$HOME" herdr
+fi
+
 log "Set up fzf key bindings/completion"
 "$(brew --prefix)/opt/fzf/install" --all --no-bash --no-fish
 

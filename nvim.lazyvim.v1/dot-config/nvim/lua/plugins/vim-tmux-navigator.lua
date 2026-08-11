@@ -1,5 +1,6 @@
 return {
   "christoomey/vim-tmux-navigator",
+  cond = vim.env.HERDR_ENV ~= "1",
   keys = {
     { "<C-\\>", "<cmd>TmuxNavigatePrevious<cr>", desc = "Go to the previous pane" },
     { "<C-h>", "<cmd>TmuxNavigateLeft<cr>", desc = "Got to the left pane" },

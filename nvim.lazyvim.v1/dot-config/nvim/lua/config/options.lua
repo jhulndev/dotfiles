@@ -17,8 +17,23 @@ opt.scrolloff = 999
 opt.winbar = "%=%m %f"
 opt.colorcolumn = "80"
 
--- Configure clipboard behavior
-if vim.env.SSH_CONNECTION and vim.env.TMUX then
+-- Configure clipboard behavior for remote multiplexer sessions.
+if vim.env.SSH_CONNECTION and vim.env.HERDR_ENV == "1" then
+  local osc52 = require("vim.ui.clipboard.osc52")
+
+  opt.clipboard = "unnamedplus"
+  vim.g.clipboard = {
+    name = "OSC 52",
+    copy = {
+      ["+"] = osc52.copy("+"),
+      ["*"] = osc52.copy("*"),
+    },
+    paste = {
+      ["+"] = osc52.paste("+"),
+      ["*"] = osc52.paste("*"),
+    },
+  }
+elseif vim.env.SSH_CONNECTION and vim.env.TMUX then
   opt.clipboard = "unnamedplus"
 
   vim.g.clipboard = {
