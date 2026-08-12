@@ -24,6 +24,7 @@ mise use -g uv@latest
 mise use -g python@latest
 mise use -g go@latest
 mise use -g node@latest
+mise use -g gh@latest
 mise use -g npm:@earendil-works/pi-coding-agent@latest
 mise use -g pnpm@latest
 mise use -g rust@latest
@@ -40,6 +41,8 @@ python --version
 python -m venv --help >/dev/null && echo "venv: OK" || echo "venv: MISSING"
 go version
 node --version
+gh --version
+gh attestation verify --help >/dev/null
 pi --version
 pnpm --version
 rustc --version

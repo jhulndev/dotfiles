@@ -43,6 +43,12 @@ eval "$("$HOME/.local/bin/mise" activate zsh)"
 # omp
 eval "$(omp completions zsh)"
 
+# Plannotator runs on this headless devbox and is reached through an SSH tunnel.
+export PLANNOTATOR_REMOTE=0
+export PLANNOTATOR_PORT=19432
+export PLANNOTATOR_SHARE=disabled
+export BROWSER=none
+
 # Zoxide (better cd) 
 eval "$(zoxide init zsh)"
 

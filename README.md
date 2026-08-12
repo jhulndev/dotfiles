@@ -18,8 +18,8 @@ Ubuntu/devbox:
 
 ## Tool ownership
 
-- **Homebrew / apt / upstream installers**: system and shell tools (`stow`, `git`, `tmux`, `nvim`, `fzf`, `fd`, `bat`, `eza`, `ripgrep`, `treehouse`, etc.)
-- **mise**: runtimes and development CLIs (`uv`, `python`, `node`, `pnpm`, `go`, `rust`, `terraform`, `opentofu`, `kubectl`, `helm`, `herdr`, `omp`, `pi`)
+- **Homebrew / apt / upstream installers**: system and shell tools (`stow`, `git`, `tmux`, `nvim`, `fzf`, `fd`, `bat`, `eza`, `ripgrep`, `treehouse`, `plannotator`, etc.)
+- **mise**: runtimes and development CLIs (`uv`, `python`, `node`, `pnpm`, `go`, `rust`, `terraform`, `opentofu`, `kubectl`, `helm`, `gh`, `herdr`, `omp`, `pi`)
 - **uv**: python-based CLI tools (`thefuck` pinned to Python 3.11, `pre-commit`)
 
 All mise-managed tools currently track their latest available releases for simplicity.
@@ -52,6 +52,8 @@ OMP configuration, authentication, sessions, and generated state remain machine-
 
 Pi settings, authentication, sessions, trust decisions, installed packages, and generated state remain machine-local under `~/.pi/agent/`. Only its global `AGENTS.md` is managed by Stow.
 
+Plannotator configuration, plans, drafts, history, sessions, and browser state remain machine-local. Bootstrap preserves existing configuration while disabling sharing by default.
+
 ## Post setup
 
 1. Restart terminal or run `source ~/.zshrc`
@@ -63,6 +65,22 @@ Pi settings, authentication, sessions, trust decisions, installed packages, and 
 7. Open `nvim` and let plugins/language servers install
 
 Pi has no built-in sandbox or permission prompts: its tools run with the permissions of the current user. Use a container or VM for untrusted repositories or unattended work. Update the Pi CLI through mise or by re-running bootstrap rather than with `pi update --self`; `pi update --models` and `pi update --extensions` remain appropriate for Pi-managed resources.
+
+## Plannotator
+
+The bootstrap uses Plannotator's official installer, pinned to `v0.26.8` with checksum and signed-provenance verification. It installs the core and extra skills as user-invoked tools, then configures Pi, OpenCode, Claude Code, and detected Codex integrations. The OpenCode and Pi packages are pinned to the same release. Restart running agents after bootstrap. Start Pi directly in plan mode with `pi --plan`, or use `/plannotator`, `/plannotator-review`, `/plannotator-annotate`, and `/plannotator-last` inside Pi.
+
+On macOS, Plannotator binds to localhost and opens the local browser. The headless Ubuntu configuration also binds to localhost, suppresses browser launch, and uses port `19432`. Connect from the MacBook with a private SSH forward:
+
+```bash
+ssh -L 19432:127.0.0.1:19432 devbox
+```
+
+Run the agent inside that SSH session, then open the printed `http://localhost:19432` URL on the MacBook. The temporary Plannotator server is unauthenticated, so keep it loopback-only and never publish port `19432`. The fixed port supports one active review at a time.
+
+For a standalone smoke test, run `plannotator annotate README.md --gate`. To upgrade, change `PLANNOTATOR_VERSION` in `setup-scripts/06-common-plannotator.sh` and rerun bootstrap. Claude Code's marketplace plugin has its own lifecycle; update it with `claude plugin marketplace update plannotator` and `claude plugin update plannotator@plannotator`, then restart Claude Code.
+
+`gh` is managed by mise on both platforms. Remove any older Homebrew or apt installation manually after verifying `mise which gh` succeeds.
 
 ## Herdr evaluation
 

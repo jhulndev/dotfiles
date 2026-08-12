@@ -45,7 +45,6 @@ brew install \
   eza \
   ripgrep \
   jq \
-  gh \
   lazygit \
   docker \
   colima \

@@ -27,4 +27,7 @@ bash "$ROOT_DIR/setup-scripts/04-macos-stow.sh"
 log "Running Herdr setup"
 bash "$ROOT_DIR/setup-scripts/05-common-herdr.sh"
 
+log "Running Plannotator setup"
+bash "$ROOT_DIR/setup-scripts/06-common-plannotator.sh"
+
 log "Bootstrap complete"
