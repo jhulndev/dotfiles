@@ -19,7 +19,7 @@ Ubuntu/devbox:
 ## Tool ownership
 
 - **Homebrew / apt / upstream installers**: system and shell tools (`stow`, `git`, `tmux`, `nvim`, `fzf`, `fd`, `bat`, `eza`, `ripgrep`, `treehouse`, etc.)
-- **mise**: runtimes and development CLIs (`uv`, `python`, `node`, `pnpm`, `go`, `rust`, `terraform`, `opentofu`, `kubectl`, `helm`, `herdr`, `omp`)
+- **mise**: runtimes and development CLIs (`uv`, `python`, `node`, `pnpm`, `go`, `rust`, `terraform`, `opentofu`, `kubectl`, `helm`, `herdr`, `omp`, `pi`)
 - **uv**: python-based CLI tools (`thefuck` pinned to Python 3.11, `pre-commit`)
 
 All mise-managed tools currently track their latest available releases for simplicity.
@@ -44,26 +44,31 @@ Key resulting paths:
 - `~/.config/aerospace/aerospace.toml` from `aerospace/`
 - `~/.config/treehouse/config.toml` from `treehouse.ubuntu/` on Ubuntu
 - `~/.config/herdr/config.toml` from `herdr/`
-- `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.omp/agent/AGENTS.md`, and `~/.config/opencode/AGENTS.md` from `agents/`
+- `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.omp/agent/AGENTS.md`, `~/.pi/agent/AGENTS.md`, and `~/.config/opencode/AGENTS.md` from `agents/`
 
 Global agent instructions are edited in `agents/shared/AGENTS.md`; the tool-specific files are symlink aliases to that single source.
 
 OMP configuration, authentication, sessions, and generated state remain machine-local under `~/.omp/`.
 
+Pi settings, authentication, sessions, trust decisions, installed packages, and generated state remain machine-local under `~/.pi/agent/`. Only its global `AGENTS.md` is managed by Stow.
+
 ## Post setup
 
 1. Restart terminal or run `source ~/.zshrc`
 2. Run `omp setup`, then allow workspace writes with `omp config set tools.approvalMode write`
-3. Run `p10k configure` if you want to regenerate prompt settings
-4. Install TPM: `git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm`
-5. Open tmux and press `<prefix>I` to install plugins
-6. Open `nvim` and let plugins/language servers install
+3. Run `pi`, then use `/login` to authenticate a subscription or API-key provider
+4. Run `p10k configure` if you want to regenerate prompt settings
+5. Install TPM: `git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm`
+6. Open tmux and press `<prefix>I` to install plugins
+7. Open `nvim` and let plugins/language servers install
+
+Pi has no built-in sandbox or permission prompts: its tools run with the permissions of the current user. Use a container or VM for untrusted repositories or unattended work. Update the Pi CLI through mise or by re-running bootstrap rather than with `pi update --self`; `pi update --models` and `pi update --extensions` remain appropriate for Pi-managed resources.
 
 ## Herdr evaluation
 
 Herdr is installed alongside tmux. Start or reattach to its persistent default session with `herdr`; detach with `<C-b>q`. The `t` alias continues to launch tmux while Herdr is being evaluated.
 
-The bootstrap installs Herdr integrations for OpenCode, OMP, Claude Code, and Codex, along with pinned `herdr-splits.nvim` and `herdr-resurrect` plugins. It also installs the official Herdr skill for supported coding agents. Restart running agents after bootstrap so their integrations and skill discovery reload.
+The bootstrap installs Herdr integrations for OpenCode, OMP, Pi, Claude Code, and Codex, along with pinned `herdr-splits.nvim` and `herdr-resurrect` plugins. It also installs the official Herdr skill for supported coding agents. Restart running agents after bootstrap so their integrations and skill discovery reload.
 
 Herdr restores workspace layout, working directories, and integrated agent conversations after a server restart. Pane screen history is intentionally disabled. Before a planned cold restart or mise update, save the commands running in ordinary panes:
 

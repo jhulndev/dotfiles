@@ -14,7 +14,7 @@ log "Validate Herdr configuration"
 herdr config check
 
 log "Install Herdr agent integrations"
-for integration in opencode omp claude codex; do
+for integration in opencode omp pi claude codex; do
   herdr integration install "$integration"
 done
 
