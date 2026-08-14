@@ -68,7 +68,9 @@ Pi has no built-in sandbox or permission prompts: its tools run with the permiss
 
 ## Plannotator
 
-The bootstrap uses Plannotator's official installer, pinned to `v0.26.8` with checksum and signed-provenance verification. It installs the core and extra skills as user-invoked tools, then configures Pi, OpenCode, Claude Code, and detected Codex integrations. The OpenCode and Pi packages are pinned to the same release. Restart running agents after bootstrap. Start Pi directly in plan mode with `pi --plan`, or use `/plannotator`, `/plannotator-review`, `/plannotator-annotate`, and `/plannotator-last` inside Pi.
+The bootstrap uses Plannotator's official installer, pinned to `v0.26.8` with checksum and signed-provenance verification. It installs the core and extra skills as user-invoked tools, configures OpenCode with the plugin's `manual` workflow, and skips automatic Claude Code, Codex, Gemini, and Kiro plan hooks. The OpenCode and Pi packages are pinned to the same release.
+
+Plannotator never intercepts normal agent planning. Invoke it explicitly with `/plannotator-review`, `/plannotator-annotate`, or `/plannotator-last`. In Pi, start its opt-in plan workflow with `pi --plan`, `/plannotator`, or `Ctrl+Alt+P`; ordinary Pi sessions remain unaffected. Restart running agents after bootstrap so their integrations and skills reload.
 
 On macOS, Plannotator binds to localhost and opens the local browser. The headless Ubuntu configuration also binds to localhost, suppresses browser launch, and uses port `19432`. Connect from the MacBook with a private SSH forward:
 
@@ -78,7 +80,7 @@ ssh -L 19432:127.0.0.1:19432 devbox
 
 Run the agent inside that SSH session, then open the printed `http://localhost:19432` URL on the MacBook. The temporary Plannotator server is unauthenticated, so keep it loopback-only and never publish port `19432`. The fixed port supports one active review at a time.
 
-For a standalone smoke test, run `plannotator annotate README.md --gate`. To upgrade, change `PLANNOTATOR_VERSION` in `setup-scripts/06-common-plannotator.sh` and rerun bootstrap. Claude Code's marketplace plugin has its own lifecycle; update it with `claude plugin marketplace update plannotator` and `claude plugin update plannotator@plannotator`, then restart Claude Code.
+For a standalone smoke test, run `plannotator annotate README.md --gate`. To upgrade, change `PLANNOTATOR_VERSION` in `setup-scripts/06-common-plannotator.sh` and rerun bootstrap.
 
 `gh` is managed by mise on both platforms. Remove any older Homebrew or apt installation manually after verifying `mise which gh` succeeds.
 

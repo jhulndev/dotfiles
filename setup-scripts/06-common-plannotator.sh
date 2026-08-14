@@ -31,6 +31,9 @@ curl -fsSL https://plannotator.ai/install.sh | bash -s -- \
   --verify-attestation \
   --extras \
   --model-invocable none \
+  --skip-codex \
+  --skip-gemini \
+  --skip-kiro \
   --non-interactive
 
 export PATH="$HOME/.local/bin:$PATH"
@@ -93,6 +96,7 @@ import tempfile
 path = os.path.abspath(os.path.expanduser(sys.argv[1]))
 version = sys.argv[2]
 package = f"@plannotator/opencode@{version}"
+options = {"workflow": "manual"}
 os.makedirs(os.path.dirname(path), exist_ok=True)
 
 if os.path.exists(path):
@@ -112,14 +116,14 @@ for entry in plugins:
     if spec == "@plannotator/opencode" or spec.startswith("@plannotator/opencode@"):
         if found:
             continue
-        if isinstance(entry, str):
-            entry = package
-        else:
-            entry[0] = package
+        if isinstance(entry, list) and len(entry) > 1 and isinstance(entry[1], dict):
+            options.update(entry[1])
+        options["workflow"] = "manual"
+        entry = [package, options]
         found = True
     merged_plugins.append(entry)
 if not found:
-    merged_plugins.append(package)
+    merged_plugins.append([package, options])
 config["plugin"] = merged_plugins
 
 fd, temporary_path = tempfile.mkstemp(dir=os.path.dirname(path))
@@ -132,26 +136,6 @@ finally:
     if os.path.exists(temporary_path):
         os.unlink(temporary_path)
 PY
-
-log "Configure the Plannotator Claude Code plugin"
-if require_cmd claude; then
-  if ! claude plugin marketplace list --json | python3 -c '
-import json, sys
-raise SystemExit(0 if any(item.get("repo") == "backnotprop/plannotator" for item in json.load(sys.stdin)) else 1)
-'; then
-    claude plugin marketplace add --scope user backnotprop/plannotator
-  fi
-
-  if ! claude plugin list --json | python3 -c '
-import json, sys
-items = json.load(sys.stdin)
-raise SystemExit(0 if any("plannotator" in str(item.get("id", item.get("name", ""))) for item in items) else 1)
-'; then
-    claude plugin install --scope user plannotator@plannotator
-  fi
-else
-  log "Claude Code not found; skipping its Plannotator plugin"
-fi
 
 log "Install/update the pinned Plannotator Pi extension"
 pi install "npm:@plannotator/pi-extension@${PLANNOTATOR_VERSION}"
