@@ -35,6 +35,9 @@ bash "$ROOT_DIR/setup-scripts/01-ubuntu-system.sh"
 log "Running mise bootstrap"
 bash "$ROOT_DIR/setup-scripts/02-common-mise.sh"
 
+export PATH="$HOME/.local/bin:$PATH"
+eval "$(mise activate bash)"
+
 log "Running uv bootstrap"
 bash "$ROOT_DIR/setup-scripts/03-common-uv.sh"
 
